@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page</title>
+    <style>
+      :root {
+        --bg: #f6efe5;
+        --panel: #fffaf3;
+        --text: #1f2933;
+        --accent: #ef8354;
+        --accent-dark: #c7511f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Trebuchet MS", sans-serif;
+        color: var(--text);
+        background: linear-gradient(135deg, #f6efe5, #d9e2ec);
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 48px 20px;
+      }
+
+      .hero-card {
+        width: min(720px, 100%);
+        padding: 40px;
+        border-radius: 24px;
+        background: var(--panel);
+        box-shadow: 0 20px 60px rgba(31, 41, 51, 0.15);
+      }
+
+      .hero-title {
+        margin: 0 0 12px;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+      }
+
+      .hero-copy {
+        margin: 0 0 24px;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        border: none;
+        border-radius: 999px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: white;
+      }
+
+      .button-secondary {
+        background: transparent;
+        border: 2px solid var(--accent);
+        color: var(--accent-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <div class="hero-card">
+        <p>Design with confidence</p>
+        <h1 class="hero-title">Build web experiences that feel alive.</h1>
+        <p class="hero-copy">
+          This layout mixes strong typography, warm color, and a lightweight call to action.
+        </p>
+        <div class="hero-actions">
+          <button class="button button-primary">Start Project</button>
+          <button class="button button-secondary">See Examples</button>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+
+const menuButton = document.querySelector("[data-menu-button]");
+const mobileMenu = document.querySelector("[data-mobile-menu]");
+
+if (menuButton && mobileMenu) {
+  menuButton.addEventListener("click", () => {
+    const isOpen = mobileMenu.classList.toggle("is-open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+
+function renderTodoList(items) {
+  return items
+    .map((item) => {
+      const checked = item.done ? "checked" : "";
+      return `
+        <li class="todo-item">
+          <label>
+            <input type="checkbox" ${checked} />
+            <span>${item.label}</span>
+          </label>
+        </li>
+      `;
+    })
+    .join("");
+}
+
+const todos = [
+  { label: "Write semantic HTML", done: true },
+  { label: "Add responsive CSS", done: true },
+  { label: "Connect JavaScript interactions", done: false },
+];
+
+document.body.insertAdjacentHTML(
+  "beforeend",
+  `
+    <section class="todo-panel">
+      <h2>Frontend Checklist</h2>
+      <ul>${renderTodoList(todos)}</ul>
+    </section>
+  `
+);
+
+function debounce(callback, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+}
+
+const searchInput = document.querySelector("#search-input");
+const resultsBox = document.querySelector("#results");
+
+if (searchInput && resultsBox) {
+  const handleSearch = debounce((event) => {
+    const query = event.target.value.trim().toLowerCase();
+    resultsBox.textContent = query
+      ? `Showing results for "${query}"`
+      : "Start typing to search.";
+  }, 250);
+
+  searchInput.addEventListener("input", handleSearch);
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ecfeff;
+  color: #155e75;
+}
+
+function createProductCard(product) {
+  return `
+    <article class="card product-card">
+      <img src="${product.image}" alt="${product.name}" class="product-image" />
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <strong>$${product.price}</strong>
+    </article>
+  `;
+}
+
+const products = [
+  {
+    name: "Canvas Backpack",
+    description: "Durable day bag for city travel.",
+    price: 48,
+    image: "/images/backpack.jpg",
+  },
+  {
+    name: "Desk Lamp",
+    description: "Soft light with a matte ceramic base.",
+    price: 64,
+    image: "/images/lamp.jpg",
+  },
+];
+
+const productGrid = document.querySelector("#product-grid");
+if (productGrid) {
+  productGrid.innerHTML = products.map(createProductCard).join("");
+}
+
+@media (max-width: 640px) {
+  .hero-card {
+    padding: 24px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+function validateSignupForm(values) {
+  const errors = {};
+
+  if (!values.name.trim()) {
+    errors.name = "Name is required";
+  }
+
+  if (!values.email.includes("@")) {
+    errors.email = "Enter a valid email";
+  }
+
+  if (values.password.length < 8) {
+    errors.password = "Password must be at least 8 characters";
+  }
+
+  return errors;
+}
+
+const formState = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+function updateField(field, value) {
+  formState[field] = value;
+  const errors = validateSignupForm(formState);
+  console.log(errors);
+}
+
+<nav class="site-nav">
+  <a href="/" class="logo">Northstar</a>
+  <div class="nav-links">
+    <a href="/work">Work</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </div>
+</nav>
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+const tabs = document.querySelectorAll("[data-tab]");
+const panels = document.querySelectorAll("[data-panel]");
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const target = tab.getAttribute("data-tab");
+    tabs.forEach((item) => item.classList.remove("is-active"));
+    panels.forEach((panel) => panel.classList.remove("is-active"));
+    tab.classList.add("is-active");
+    document.querySelector(`[data-panel="${target}"]`)?.classList.add("is-active");
+  });
+});
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Pulse</title>
+    <style>
+      :root {
+        --bg: #f3f0ea;
+        --surface: #fffdf8;
+        --text: #14213d;
+        --muted: #5c677d;
+        --accent: #ff7b54;
+      }
+
+      body {
+        margin: 0;
+        font-family: Georgia, serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(255, 123, 84, 0.2), transparent 30%),
+          linear-gradient(180deg, #f3f0ea, #dbe7f0);
+      }
+
+      .page {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 64px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0 32px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .hero-panel,
+      .stats-panel {
+        background: var(--surface);
+        border-radius: 28px;
+        padding: 32px;
+        box-shadow: 0 20px 50px rgba(20, 33, 61, 0.1);
+      }
+
+      .hero-panel h1 {
+        margin: 16px 0;
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        line-height: 0.92;
+      }
+
+      .hero-panel p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+
+      .cta {
+        border: none;
+        border-radius: 999px;
+        padding: 14px 22px;
+        cursor: pointer;
+      }
+
+      .cta-primary {
+        color: white;
+        background: var(--accent);
+      }
+
+      .stats-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .stat {
+        padding: 18px;
+        border-radius: 20px;
+        background: #fff4ef;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-top: 28px;
+      }
+
+      .feature-card {
+        background: var(--surface);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      @media (max-width: 800px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <strong>Studio Pulse</strong>
+        <nav>Work About Contact</nav>
+      </header>
+
+      <section class="hero-grid">
+        <article class="hero-panel">
+          <span>Editorial design for modern brands</span>
+          <h1>Launch pages with style, speed, and story.</h1>
+          <p>
+            We build campaign pages, product reveals, and conversion-focused homepages with a strong point of view.
+          </p>
+          <div class="cta-row">
+            <button class="cta cta-primary">Book a Sprint</button>
+            <button class="cta">View Work</button>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h2>Responsive</h2>
+              <p>Layouts scale from mobile to desktop without losing personality.</p>
+            </article>
+            <article class="feature-card">
+              <h2>Fast iteration</h2>
+              <p>Prototype a page idea in hours, not weeks.</p>
+            </article>
+            <article class="feature-card">
+              <h2>Clear hierarchy</h2>
+              <p>Big headlines, purposeful spacing, and strong calls to action.</p>
+            </article>
+          </div>
+        </article>
+        <aside class="stats-panel">
+          <div class="stats-list">
+            <article class="stat">
+              <strong>42%</strong>
+              <p>Average lift after redesigning hero messaging.</p>
+            </article>
+            <article class="stat">
+              <strong>7 days</strong>
+              <p>Typical delivery for a focused landing page sprint.</p>
+            </article>
+            <article class="stat">
+              <strong>100%</strong>
+              <p>Custom visuals with no generic component feel.</p>
+            </article>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
