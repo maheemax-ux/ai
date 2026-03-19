@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page Lab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="control-panel">
+        <div class="brand-block">
+          <p class="eyebrow">GitHub Pages Ready</p>
+          <h1>Landing Page Lab</h1>
+          <p class="lede">
+            Generate complete landing pages in the browser, preview them instantly,
+            and export the HTML to host on GitHub.
+          </p>
+        </div>
+
+        <form id="generator-form" class="generator-form">
+          <label class="field">
+            <span>Theme</span>
+            <input id="theme-input" name="theme" type="text" value="design agency" />
+          </label>
+
+          <label class="field">
+            <span>Audience</span>
+            <input id="audience-input" name="audience" type="text" value="creative founders" />
+          </label>
+
+          <label class="field">
+            <span>Tone</span>
+            <select id="tone-select" name="tone">
+              <option value="bold">Bold</option>
+              <option value="premium">Premium</option>
+              <option value="playful">Playful</option>
+              <option value="calm">Calm</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Layout Style</span>
+            <select id="layout-select" name="layout">
+              <option value="auto">Auto</option>
+              <option value="split">Split Hero</option>
+              <option value="glow">Glow Card</option>
+              <option value="editorial">Editorial Stack</option>
+            </select>
+          </label>
+
+          <div class="field">
+            <span>Sections</span>
+            <div class="checkbox-grid">
+              <label><input type="checkbox" name="sections" value="features" checked /> Features</label>
+              <label><input type="checkbox" name="sections" value="stats" checked /> Stats</label>
+              <label><input type="checkbox" name="sections" value="testimonial" checked /> Testimonial</label>
+              <label><input type="checkbox" name="sections" value="faq" /> FAQ</label>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button type="submit" class="primary-button">Generate</button>
+            <button type="button" id="shuffle-button" class="secondary-button">Shuffle Style</button>
+          </div>
+        </form>
+
+        <div class="utility-row">
+          <button type="button" id="copy-button" class="ghost-button">Copy HTML</button>
+          <button type="button" id="download-button" class="ghost-button">Download</button>
+        </div>
+
+        <div class="meta-card">
+          <h2>Deploy</h2>
+          <p>
+            Push these files to GitHub, enable GitHub Pages, and your app will work
+            with no backend or build step.
+          </p>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="preview-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Preview</p>
+              <h2>Live Landing Page</h2>
+            </div>
+            <p id="status-text" class="status-text">Ready</p>
+          </div>
+          <iframe id="preview-frame" title="Generated landing page preview"></iframe>
+        </section>
+
+        <section class="code-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Export</p>
+              <h2>HTML Output</h2>
+            </div>
+          </div>
+          <textarea id="code-output" spellcheck="false"></textarea>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
